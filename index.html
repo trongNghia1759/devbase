@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thú Cưng Ảo</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, #111, #333);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    .pet {
+      font-size: 90px;
+      margin: 20px 0;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 0 10px #fff);
+    }
+    .glow {
+      animation: glowPulse 2s infinite;
+    }
+    @keyframes glowPulse {
+      0% { filter: drop-shadow(0 0 10px #fff); }
+      50% { filter: drop-shadow(0 0 20px #ffccff); }
+      100% { filter: drop-shadow(0 0 10px #fff); }
+    }
+    .crown {
+      font-size: 40px;
+      margin-top: -20px;
+    }
+    input, button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+    }
+    #saveNameBtn {
+      background-color: #ff66cc;
+      color: white;
+    }
+    #feedBtn {
+      background-color: #66ff99;
+      color: black;
+    }
+    #submitCodeBtn {
+      background-color: #00ccff;
+      color: white;
+    }
+    .pet-container {
+      position: relative;
+      display: inline-block;
+    }
+    .popup {
+      background: #000000aa;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      animation: fadeOut 3s ease-out forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; top: 0; }
+    }
+    .timer {
+      margin-top: 10px;
+      color: #aaa;
+      font-size: 14px;
+    }
+    .rank-board {
+      margin-top: 40px;
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .rank-board h3 {
+      color: #ff66cc;
+    }
+    .rank-board ul {
+      list-style: none;
+      padding: 0;
+    }
+    .rank-board li {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .check {
+      color: #00ffcc;
+      margin-left: 6px;
+    }
+    .code-section {
+      margin-top: 40px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐾PET SIMULAYTER🐾</h1>
+
+  <div>
+    <label>TÊN HIỂN THỊ: </label>
+    <input type="text" id="petNameInput" placeholder="Nhập tên..." />
+    <button id="saveNameBtn">Lưu tên</button>
+  </div>
+
+  <h2 id="greetingText">Chào mừng bạn!</h2>
+
+  <div class="pet-container">
+    <div id="crown" class="crown" style="display: none;">👑</div>
+    <div id="petEmoji" class="pet glow">🐶</div>
+  </div>
+
+  <p><strong>🎖️ Cấp độ:</strong> <span id="petLevel">1</span></p>
+  <p><strong>🍗 Thức ăn còn lại:</strong> <span id="foodStorage">0</span></p>
+  <p><strong>🍽️ Đã cho ăn:</strong> <span id="feedCount">0</span> lần</p>
+  <p class="timer">⏳ Thức ăn tiếp theo sau: <span id="countdown">30</span>s</p>
+
+  <button id="feedBtn">🍖 Cho ăn</button>
+
+  <div class="code-section">
+    <h3>🎁 Code 🎁</h3>
+    <input type="text" id="codeInput" placeholder="Nhập mã code..." />
+    <button id="submitCodeBtn">Nhận</button>
+  </div>
+
+  <div class="rank-board">
+    <h3>🏆 Bảng Xếp Hạng - UPDATE Mỗi Tuần</h3>
+    <ul>
+      <li>🥇 Pet Của Bo — 846.382 lần cho ăn <span class="check">✔️</span></li>
+      <li>🥈 Rin — 573.648 lần cho ăn</li>
+      <li>🥉 Boss — 385.364 lần cho ăn <span class="check">✔️</span></li>
+      <li>⭐ Thiên — 94.463 lần cho ăn</li>
+      <li>⭐ Phan anh Jack — 92.648 lần cho ăn</li>
+      <li>⭐ Bé iu — 87.648 lần cho ăn</li>
+      <li>⭐ Ngọc Nhung — 87.537 lần cho ăn</li>
+      <li>⭐ Hẹ Hẹ Hẹ — 82.547 lần cho ăn</li>
+      <li>⭐ Chó đẻ — 66.738 lần cho ăn <span class="check">✔️</span></li>
+      <li>⭐ j97 — 39.648 lần cho ăn</li>
+    </ul>
+  </div>
+
+  <script>
+    const foodStorageSpan = document.getElementById('foodStorage');
+    const feedCountSpan = document.getElementById('feedCount');
+    const petLevelSpan = document.getElementById('petLevel');
+    const greetingText = document.getElementById('greetingText');
+    const petNameInput = document.getElementById('petNameInput');
+    const petEmoji = document.getElementById('petEmoji');
+    const crown = document.getElementById('crown');
+    const countdownText = document.getElementById('countdown');
+
+    let petName = localStorage.getItem('petName') || '';
+    let feedCount = parseInt(localStorage.getItem('feedCount')) || 0;
+    let foodStorage = parseInt(localStorage.getItem('foodStorage')) || 0;
+    let currentLevel = 1;
+    let secondsLeft = 30;
+
+    if (!localStorage.getItem('hasPlayedBefore')) {
+      foodStorage += 15;
+      localStorage.setItem('foodStorage', foodStorage);
+      localStorage.setItem('hasPlayedBefore', 'true');
+      alert("🎉 Chào mừng lần đầu! Bạn được tặng 15 thức ăn.");
+    }
+
+    let lastCollect = parseInt(localStorage.getItem('lastCollectTime')) || Date.now();
+    let now = Date.now();
+    let secondsPassed = Math.floor((now - lastCollect) / 1000);
+    let newFoods = Math.floor(secondsPassed / 30);
+    if (newFoods > 0) {
+      foodStorage += newFoods;
+      localStorage.setItem('foodStorage', foodStorage);
+      lastCollect = now - (secondsPassed % 30) * 1000;
+      localStorage.setItem('lastCollectTime', lastCollect);
+    }
+    secondsLeft = 30 - (secondsPassed % 30);
+
+    function calculateLevel(feeds) {
+  if (feeds >= 2500000) return 30;
+  if (feeds >= 2000000) return 29;
+  if (feeds >= 1500000) return 28;
+  if (feeds >= 1000000) return 27;
+  if (feeds >= 900001) return 26;
+  if (feeds >= 800001) return 25;
+  if (feeds >= 700001) return 24;
+  if (feeds >= 600001) return 23;
+  if (feeds >= 500000) return 22;
+  if (feeds >= 400000) return 21;
+  if (feeds >= 300000) return 20;
+  if (feeds >= 200000) return 19;
+  if (feeds >= 150001) return 18;
+  if (feeds >= 100000) return 17;
+  if (feeds >= 75001) return 16;
+  if (feeds >= 50001) return 15;
+  if (feeds >= 30000) return 14;
+  if (feeds >= 15001) return 13;
+  if (feeds >= 10001) return 12;
+  if (feeds >= 5001) return 12;
+  if (feeds >= 3500) return 11;
+  if (feeds >= 2000) return 10;
+  if (feeds >= 1000) return 9;
+  if (feeds >= 601) return 8;
+  if (feeds >= 300) return 7;
+  if (feeds >= 201) return 6;
+  if (feeds >= 100) return 5;
+  if (feeds >= 51) return 4;
+  if (feeds >= 31) return 3;
+  if (feeds >= 11) return 2;
+  return 1;
+}
+
+    function updatePetEmoji(level) {
+      const emojis = {
+        1: "🐶", 2: "🐱", 3: "🦊", 4: "🐯",
+        5: "🐲", 6: "🦁", 7: "🐵", 8: "🐸",
+        9: "🦄", 10: "🐉", MAX: "👾"
+      };
+      petEmoji.innerText = emojis[level] || "🐶";
+      crown.style.display = (level === 'MAX' || level >= 9) ? 'block' : 'none';
+    }
+
+    function showLevelUpPopup(level) {
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      popup.innerText = `🎉 ${petName || 'Pet'} đã lên cấp ${level}!`;
+      document.body.appendChild(popup);
+      setTimeout(() => popup.remove(), 3000);
+    }
+
+    function updateDisplay() {
+      const newLevel = calculateLevel(feedCount);
+      const levelChanged = newLevel !== currentLevel;
+      currentLevel = newLevel;
+
+      petLevelSpan.innerText = newLevel;
+      foodStorageSpan.innerText = foodStorage;
+      feedCountSpan.innerText = feedCount;
+      updatePetEmoji(currentLevel);
+      if (petName) greetingText.innerText = `🐾 Xin chào, ${petName}!`;
+      if (levelChanged && feedCount > 0) {
+        showLevelUpPopup(currentLevel);
+      }
+    }
+
+    updateDisplay();
+
+    document.getElementById('saveNameBtn').addEventListener('click', () => {
+      const name = petNameInput.value.trim();
+      if (name) {
+        petName = name;
+        localStorage.setItem('petName', petName);
+        greetingText.innerText = `🐾 Xin chào, ${petName}!`;
+        petNameInput.value = '';
+      }
+    });
+
+    document.getElementById('feedBtn').addEventListener('click', () => {
+      if (foodStorage > 0) {
+        foodStorage--;
+        feedCount++;
+        localStorage.setItem('foodStorage', foodStorage);
+        localStorage.setItem('feedCount', feedCount);
+        updateDisplay();
+      } else {
+        alert("Bạn đã hết thức ăn! Đợi thêm để được tự cộng.");
+      }
+    });
+
+    // Mã quà tặng
+    document.getElementById('submitCodeBtn').addEventListener('click', () => {
+      const code = document.getElementById('codeInput').value.trim();
+      if (code === 'trongnghia999' && !localStorage.getItem('usedCode_trongnghia999')) {
+        foodStorage += 987654;
+        feedCount += 987654;
+        localStorage.setItem('foodStorage', foodStorage);
+        localStorage.setItem('feedCount', feedCount);
+        localStorage.setItem('usedCode_trongnghia999', 'true');
+        updateDisplay();
+        alert("🎉 Nhập mã thành công!");
+      } else {
+        alert("❌ Mã không hợp lệ hoặc đã sử dụng.");
+      }
+    });
+
+    setInterval(() => {
+      secondsLeft--;
+      countdownText.innerText = secondsLeft;
+      if (secondsLeft <= 0) {
+        foodStorage++;
+        localStorage.setItem('foodStorage', foodStorage);
+        updateDisplay();
+        lastCollect = Date.now();
+        localStorage.setItem('lastCollectTime', lastCollect);
+        secondsLeft = 30;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
