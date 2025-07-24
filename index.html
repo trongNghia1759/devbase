@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sổ Tay Đột Biến Gen - Nâng Cấp</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 { font-size: 2em; margin-bottom: 10px; }
+    select, button, input {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 8px;
+      font-size: 16px;
+      border: none;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .pet {
+      font-size: 60px;
+      margin: 20px auto;
+      width: 160px;
+      height: 160px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s ease;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .spin { animation: spin 1s linear; }
+    .shake { animation: shake 0.5s ease; }
+    .bounce { animation: bounce 0.5s ease; }
+
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .history, .tree {
+      background: #222;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .entry {
+      padding: 6px;
+      margin-bottom: 5px;
+      background: #333;
+      border-radius: 6px;
+    }
+
+    textarea { width: 90%; height: 60px; margin-top: 10px; border-radius: 6px; padding: 6px; }
+
+    .input-area { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🧬 Sổ Tay Đột Biến Gen - Full Power</h1>
+
+  <select id="petSelector" onchange="selectPet(this.value)"></select>
+  <div id="pet" class="pet">😺</div>
+  <div class="info" id="petInfo"></div>
+
+  <button onclick="mutatePet()">Nuôi & Đột Biến</button>
+  <button onclick="createNewPet()">+ Thú Cưng Mới</button>
+  <button onclick="sharePet()">🔗 Chia Sẻ</button>
+  <button onclick="combinePets()">🧬 Kết Hợp Gen</button>
+
+  <div class="input-area">
+    <input type="text" id="codeInput" placeholder="Nhập code...">
+    <button onclick="redeemCode()">🎁 Nhận Quà</button>
+  </div>
+
+  <div class="history" id="history">📜 Lịch Sử</div>
+  <div class="tree" id="genTree">🌳 Cây Gen</div>
+
+  <textarea id="shareOutput" readonly></textarea>
+
+  <script>
+    const emojis = ["😺", "😸", "😹", "😻", "😼", "😾", "🙀", "😎", "🥸", "🐉", "🦄"];
+    const colors = ["#ffb3ba", "#bae1ff", "#baffc9", "#ffffba", "#d5baff", "#ffd6a5", "#f4f4f4", "#111", "#0ff"];
+    const effects = ["", "spin", "shake", "bounce"];
+    const levelNames = ["Mầm Non", "Tiểu Hóa", "Thích Ứng", "Đột Biến Nhẹ", "Cường Hóa", "Siêu Hiếm", "Tiến Hóa", "Cực Hiếm", "Huyền Thoại", "Thần Thoại"];
+    const personalities = ["Dũng cảm", "Thông minh", "Lười biếng", "Tăng động", "Thân thiện", "Ẩn dật"];
+
+    let pets = JSON.parse(localStorage.getItem("genPets")) || [];
+    let selected = 0;
+
+    function savePets() {
+      localStorage.setItem("genPets", JSON.stringify(pets));
+    }
+
+    function randomFrom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function createNewPet() {
+      if (pets.length >= 5) return alert("Tối đa 5 thú cưng!");
+      const newPet = {
+        emoji: randomFrom(emojis),
+        color: randomFrom(colors),
+        effect: randomFrom(effects),
+        exp: 0,
+        level: 1,
+        tree: [],
+        personality: randomFrom(personalities)
+      };
+      pets.push(newPet);
+      selected = pets.length - 1;
+      savePets();
+      renderAll();
+    }
+
+    function renderAll() {
+      renderPet();
+      renderTree();
+      renderSelector();
+    }
+
+    function renderSelector() {
+      document.getElementById("petSelector").innerHTML = pets.map((p, i) =>
+        `<option value="${i}" ${i === selected ? "selected" : ""}>Pet ${i + 1}</option>`
+      ).join("");
+    }
+
+    function selectPet(i) {
+      selected = parseInt(i);
+      renderAll();
+    }
+
+    function renderPet() {
+      const pet = pets[selected];
+      const petEl = document.getElementById("pet");
+      petEl.innerText = pet.emoji;
+      petEl.style.backgroundColor = pet.color;
+      petEl.className = "pet " + pet.effect;
+
+      document.getElementById("petInfo").innerText =
+        `Cấp: ${pet.level} (${levelNames[pet.level - 1] || "Thần"}) – EXP: ${pet.exp}/10 – Tính cách: ${pet.personality}`;
+    }
+
+    function mutatePet() {
+      const pet = pets[selected];
+
+      if (Math.random() < 0.5) pet.emoji = randomFrom(emojis);
+      if (Math.random() < 0.5) pet.color = randomFrom(colors);
+      if (Math.random() < 0.5) pet.effect = randomFrom(effects);
+
+      pet.exp++;
+      if (pet.exp >= 10 && pet.level < 10) {
+        pet.level++;
+        pet.exp = 0;
+        alert(`✨ Pet đã tiến hóa thành cấp ${pet.level} – ${levelNames[pet.level - 1]}`);
+      }
+
+      pet.tree.push({
+        emoji: pet.emoji,
+        color: pet.color,
+        effect: pet.effect,
+        level: pet.level,
+        time: new Date().toLocaleTimeString()
+      });
+
+      savePets();
+      renderAll();
+    }
+
+    function renderTree() {
+      const tree = pets[selected].tree;
+      document.getElementById("genTree").innerHTML =
+        tree.slice().reverse().map(t =>
+          `<div class="entry">${t.time}: ${t.emoji}, ${t.color}, hiệu ứng: ${t.effect || "Không"} (Lv${t.level})</div>`
+        ).join("");
+    }
+
+    function redeemCode() {
+      const code = document.getElementById("codeInput").value.trim().toLowerCase();
+      const pet = pets[selected];
+
+      if (code === "exp1000") {
+        pet.exp += 10;
+        alert("🎁 Nhận 1000 EXP! Pet sắp tiến hóa!");
+      } else if (code === "skinvip") {
+        pet.emoji = "🐉"; pet.color = "#0ff"; pet.effect = "spin";
+        alert("🎁 Skin VIP đã được kích hoạt!");
+      } else if (code === "giftpet") {
+        createNewPet();
+        alert("🎁 Bạn vừa nhận thêm 1 thú cưng mới!");
+      } else {
+        alert("❌ Mã không hợp lệ!");
+        return;
+      }
+
+      savePets();
+      renderAll();
+    }
+
+    function combinePets() {
+      if (pets.length < 2) return alert("Cần ít nhất 2 pet để kết hợp!");
+      const pet1 = pets[selected];
+      const pet2 = pets[(selected + 1) % pets.length];
+
+      const newPet = {
+        emoji: randomFrom([pet1.emoji, pet2.emoji]),
+        color: randomFrom([pet1.color, pet2.color]),
+        effect: randomFrom([pet1.effect, pet2.effect]),
+        exp: 0,
+        level: Math.floor((pet1.level + pet2.level) / 2),
+        tree: [],
+        personality: randomFrom([pet1.personality, pet2.personality])
+      };
+
+      pets.push(newPet);
+      selected = pets.length - 1;
+      alert("🧬 Pet mới đã được tạo từ sự kết hợp!");
+      savePets();
+      renderAll();
+    }
+
+    function sharePet() {
+      const pet = pets[selected];
+      const encoded = btoa(JSON.stringify(pet));
+      const link = `${location.origin}${location.pathname}?pet=${encoded}`;
+      document.getElementById("shareOutput").value = link;
+    }
+
+    const urlParams = new URLSearchParams(location.search);
+    if (urlParams.has("pet")) {
+      try {
+        const pet = JSON.parse(atob(urlParams.get("pet")));
+        pets.push(pet);
+        selected = pets.length - 1;
+        alert("📥 Đã nhận thú cưng từ liên kết!");
+        savePets();
+      } catch {
+        alert("❌ Liên kết lỗi!");
+      }
+    }
+
+    if (pets.length === 0) createNewPet();
+    renderAll();
+  </script>
+</body>
+</html>
