@@ -22,6 +22,7 @@
             padding: 0;
             line-height: 1.6;
             transition: margin-left 0.3s ease;
+            font-size: 0.9em; /* Giảm kích thước chữ của toàn bộ web */
         }
         .container {
             max-width: 1200px;
@@ -36,13 +37,13 @@
         header h1 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            font-size: 3em;
+            font-size: 2.5em; /* Giảm kích thước h1 */
             color: var(--primary-color);
             text-transform: uppercase;
             margin: 0 0 10px 0;
         }
         header p {
-            font-size: 1.2em;
+            font-size: 1em; /* Giảm kích thước p */
             color: #b0b0b0;
         }
         .search-box {
@@ -53,22 +54,22 @@
         .search-box input {
             width: 100%;
             max-width: 500px;
-            padding: 12px 20px;
+            padding: 10px 20px; /* Giảm padding input */
             border: none;
             border-radius: 50px 0 0 50px;
             background-color: var(--secondary-bg);
             color: var(--text-color);
-            font-size: 1em;
+            font-size: 0.9em; /* Giảm kích thước chữ input */
             outline: none;
             transition: box-shadow 0.3s ease;
         }
         .search-box button {
-            padding: 12px 25px;
+            padding: 10px 25px; /* Giảm padding button */
             border: none;
             border-radius: 0 50px 50px 0;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            font-size: 1em;
+            font-size: 0.9em; /* Giảm kích thước chữ button */
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -85,6 +86,7 @@
             text-align: center;
             margin-bottom: 30px;
             position: relative;
+            font-size: 1.8em; /* Giảm kích thước h2 */
         }
         h2::after {
             content: '';
@@ -100,7 +102,7 @@
             gap: 25px;
         }
         .app-card {
-            background-color: var(--secondary-bg);
+            background-color: #e6e6e6; /* Màu xám nhạt cho card */
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -119,28 +121,31 @@
         .app-card-content {
             padding: 20px;
             text-align: center;
+            color: #1f1f1f; /* Màu chữ đen cho nội dung card */
         }
-        .app-card h3 {
+        .app-card-content h3 {
             margin-top: 0;
-            font-size: 1.5em;
+            font-size: 1.2em; /* Giảm kích thước h3 trong card */
+            color: #1f1f1f; /* Đảm bảo h3 cũng là màu đen */
         }
-        .app-card p {
-            color: #b0b0b0;
-            font-size: 0.9em;
+        .app-card-content p {
+            color: #444; /* Màu chữ hơi xám để dễ đọc hơn */
+            font-size: 0.8em; /* Giảm kích thước chữ p trong card */
             margin-bottom: 20px;
         }
         .app-price {
             font-weight: bold;
-            color: #ffcc00;
+            color: #cc0000; /* Thay đổi màu giá cho dễ nhìn trên nền xám */
         }
         .download-button {
             display: inline-block;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            padding: 12px 25px;
+            padding: 10px 20px; /* Giảm padding button */
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
+            font-size: 0.9em; /* Giảm kích thước chữ button */
             transition: background-color 0.3s ease, transform 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 255, 153, 0.4);
         }
@@ -153,6 +158,7 @@
             padding: 20px;
             border-top: 2px solid var(--border-color);
             margin-top: 40px;
+            font-size: 0.8em; /* Giảm kích thước chữ footer */
         }
         /* Style cho menu */
         .menu-toggle {
@@ -163,8 +169,8 @@
             background-color: var(--primary-color);
             color: var(--bg-color);
             border: none;
-            padding: 6px 10px; /* Giảm padding thêm nữa */
-            font-size: 1em; /* Giảm kích thước phông chữ thêm nữa */
+            padding: 6px 10px;
+            font-size: 0.9em; /* Giảm kích thước chữ của toggle */
             cursor: pointer;
             border-radius: 5px;
         }
@@ -172,9 +178,9 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 250px;
+            width: 200px; /* Giảm chiều rộng menu */
             height: 100%;
-            background-color: var(--secondary-bg);
+            background-color: #dcdcdc; /* Màu xám nhạt cho menu */
             padding: 20px;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s ease;
@@ -187,18 +193,19 @@
         .side-menu h2 {
             text-align: left;
             margin-bottom: 20px;
+            color: #1f1f1f; /* Màu chữ đen cho tiêu đề menu */
         }
         .side-menu h2::after {
             margin: 10px 0 0 0;
         }
         .side-menu a {
             display: block;
-            color: var(--text-color);
+            color: #1f1f1f; /* Màu chữ đen cho các liên kết */
             text-decoration: none;
             padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #ccc; /* Màu đường viền nhạt hơn */
             transition: color 0.3s ease;
-            font-size: 0.9em;
+            font-size: 0.8em; /* Giảm kích thước chữ của liên kết */
         }
         .side-menu a:hover {
             color: var(--primary-color);
@@ -212,10 +219,13 @@
         <a href="index.html">Trang chủ</a>
         <a href="apk.html">Kho APK</a>
         <a href="ipa.html">Kho IPA</a>
-        <a href="urlshadow.ml">Kho url shadowrocket</a>
+        <a href="urlshadow.html">Kho url shadowrocket</a>
         <a href="code.html">Kho code</a>
         <a href="congdong.html">Cộng đồng</a>
          <a href="donate.html">Donate và Liên hệ</a>
+          <br>
+         <h2>danh mục</h2>
+        <a href="https://trongnghia1759.github.io/">Web Bio Của Admin</a>
     </div>
 
     <div class="container">
@@ -244,7 +254,7 @@
             <h2>Code Trả Phí Hot</h2>
             <div class="app-grid">
                 <div class="app-card">
-                 <img src="https://via.placeholder.com/250x150" alt="Hình ảnh ứng dụng 1">
+                 <img src="codematphi1.jpg" alt="Hình ảnh ứng dụng 1">
                     <div class="app-card-content">
                         <h3>HTML Bio #1759-1</h3>
                         <p>html bio phong cách ngầu với màu chủ đạo đen, liên kết nhiều tài khoản mạng xã hội,...</p>

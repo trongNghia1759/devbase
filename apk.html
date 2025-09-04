@@ -8,12 +8,19 @@
     <style>
         /* CSS nội bộ */
         :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
+            --bg-color: #000000;
+            --text-color: #f0f0f0;
             --primary-color: #00ff99; /* Xanh neon */
-            --secondary-bg: #1f1f1f;
-            --border-color: #333;
+            --secondary-bg: #e0e0e0; /* Nền card xám nhạt */
+            --border-color: #333333;
+            --card-text-color: #1a1a1a; /* Màu chữ đen cho card */
         }
+
+        /* Chỉnh lại kích thước chữ tổng thể */
+        html {
+            font-size: 85%;
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -36,13 +43,13 @@
         header h1 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            font-size: 3em;
+            font-size: 2.5em;
             color: var(--primary-color);
             text-transform: uppercase;
             margin: 0 0 10px 0;
         }
         header p {
-            font-size: 1.2em;
+            font-size: 1em;
             color: #b0b0b0;
         }
         .search-box {
@@ -53,22 +60,22 @@
         .search-box input {
             width: 100%;
             max-width: 500px;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: 50px 0 0 50px;
-            background-color: var(--secondary-bg);
+            background-color: #1f1f1f;
             color: var(--text-color);
-            font-size: 1em;
+            font-size: 0.9em;
             outline: none;
             transition: box-shadow 0.3s ease;
         }
         .search-box button {
-            padding: 12px 25px;
+            padding: 10px 20px;
             border: none;
             border-radius: 0 50px 50px 0;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            font-size: 1em;
+            font-size: 0.9em;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -85,6 +92,7 @@
             text-align: center;
             margin-bottom: 30px;
             position: relative;
+            font-size: 1.8em;
         }
         h2::after {
             content: '';
@@ -98,6 +106,8 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
+            padding: 0 10px; /* Thêm padding để tạo khoảng trống 2 bên */
+            box-sizing: border-box; /* Đảm bảo kích thước được tính toán chuẩn xác */
         }
         .app-card {
             background-color: var(--secondary-bg);
@@ -105,6 +115,7 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box; /* Đảm bảo kích thước được tính toán chuẩn xác */
         }
         .app-card:hover {
             transform: translateY(-8px);
@@ -117,30 +128,33 @@
             border-bottom: 1px solid var(--border-color);
         }
         .app-card-content {
-            padding: 20px;
+            padding: 15px;
             text-align: center;
         }
         .app-card h3 {
             margin-top: 0;
-            font-size: 1.5em;
+            font-size: 1.2em;
+            color: var(--card-text-color);
         }
         .app-card p {
-            color: #b0b0b0;
-            font-size: 0.9em;
-            margin-bottom: 20px;
+            color: var(--card-text-color);
+            font-size: 0.8em;
+            margin-bottom: 15px;
         }
         .app-price {
             font-weight: bold;
-            color: #ffcc00;
+            color: #007bff;
+            font-size: 0.9em;
         }
         .download-button {
             display: inline-block;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
+            font-size: 0.9em;
             transition: background-color 0.3s ease, transform 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 255, 153, 0.4);
         }
@@ -157,14 +171,14 @@
         /* Style cho menu */
         .menu-toggle {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 15px;
+            left: 15px;
             z-index: 1000;
             background-color: var(--primary-color);
             color: var(--bg-color);
             border: none;
-            padding: 6px 10px; /* Giảm padding thêm nữa */
-            font-size: 1em; /* Giảm kích thước phông chữ thêm nữa */
+            padding: 5px 8px;
+            font-size: 0.9em;
             cursor: pointer;
             border-radius: 5px;
         }
@@ -172,10 +186,10 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 250px;
+            width: 200px;
             height: 100%;
-            background-color: var(--secondary-bg);
-            padding: 20px;
+            background-color: #1f1f1f;
+            padding: 15px;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s ease;
             transform: translateX(-100%);
@@ -186,19 +200,21 @@
         }
         .side-menu h2 {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            color: var(--text-color);
         }
         .side-menu h2::after {
-            margin: 10px 0 0 0;
+            margin: 8px 0 0 0;
         }
         .side-menu a {
             display: block;
             color: var(--text-color);
             text-decoration: none;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid var(--border-color);
             transition: color 0.3s ease;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         .side-menu a:hover {
             color: var(--primary-color);
@@ -212,10 +228,13 @@
         <a href="index.html">Trang chủ</a>
         <a href="apk.html">Kho APK</a>
         <a href="ipa.html">Kho IPA</a>
-        <a href="urlshadow.ml">Kho url shadowrocket</a>
+        <a href="urlshadow.html">Kho url shadowrocket</a>
         <a href="code.html">Kho code</a>
         <a href="congdong.html">Cộng đồng</a>
          <a href="donate.html">Donate và Liên hệ</a>
+          <br>
+         <h2>danh mục</h2>
+        <a href="https://trongnghia1759.github.io/">Web Bio Của Admin</a>
     </div>
 
     <div class="container">
@@ -251,7 +270,6 @@
                         <a href="https://www.mediafire.com/file/hqx7r62ek20fzz1/nap.mod.quizlet.study.with.flashcards.9.289.28.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                  <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
                         <h3>Subway surfers</h3>
@@ -261,8 +279,6 @@
                     </div>
                 </div>
                 <div class="app-card">
-  <div class="app-grid">
-                <div class="app-card">
                     <div class="app-card-content">
                         <h3>Visual Code Mobile</h3>
                         <p>Code html trên điện thoại.</p>
@@ -270,8 +286,6 @@
                         <a href="https://www.mediafire.com/file/bm354edc5f8q1mv/lk-visual-code-mobile-11-64660309-3b9f36b29c31bbab2d20ade27d83b0f8.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                <div class="app-card">
-  <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
                         <h3>The spike</h3>
@@ -281,8 +295,6 @@
                     </div>
                 </div>
                 <div class="app-card">
-  <div class="app-grid">
-                <div class="app-card">
                     <div class="app-card-content">
                         <h3>SnapChat (Dễ Band))</h3>
                         <p>Mở khoá tính năng trả phí.</p>
@@ -290,8 +302,6 @@
                         <a href="https://www.mediafire.com/file/xcfhnlnh94c2m22/Snapchat-v13.36.2.0-MOD-OTR-%2528Getmodsapk.com%2529.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                <div class="app-card">
-  <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
                         <h3>Hay Day</h3>
@@ -301,8 +311,6 @@
                     </div>
                 </div>
                 <div class="app-card">
-  <div class="app-grid">
-                <div class="app-card">
                     <div class="app-card-content">
                         <h3>Garena</h3>
                         <p>Tải xuống Garena.</p>
@@ -310,8 +318,6 @@
                         <a href="https://www.mediafire.com/file/fqqc184w3udqnic/Garena_2.4.6.107_APKPure.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                <div class="app-card">
-  <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
                         <h3>Dynamon World</h3>
@@ -321,8 +327,6 @@
                     </div>
                 </div>
                 <div class="app-card">
-  <div class="app-grid">
-                <div class="app-card">
                     <div class="app-card-content">
                         <h3>NGL Pro</h3>
                         <p>Mở khoá NGL Pro.</p>
@@ -330,8 +334,6 @@
                         <a href="https://www.mediafire.com/file/rjc01ls64jm5aon/com.mod.ngl.ask.me.anythingmod.apk.2.3.85.unit2.3.85.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                <div class="app-card">
-  <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
                         <h3>Hungry shack</h3>
@@ -341,8 +343,6 @@
                     </div>
                 </div>
                 <div class="app-card">
-  <div class="app-grid">
-                <div class="app-card">
                     <div class="app-card-content">
                         <h3>FL Studio Mobile</h3>
                         <p>Tải xuống FL Studio Mobile.</p>
@@ -350,8 +350,6 @@
                         <a href="https://www.mediafire.com/file/bcjvxsq14gimoa1/FL_Studio_Mobile_v4.6.8.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                <div class="app-card">
-  <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
                         <h3>B612 Premium</h3>
@@ -361,8 +359,6 @@
                     </div>
                 </div>
                 <div class="app-card">
-  <div class="app-grid">
-                <div class="app-card">
                     <div class="app-card-content">
                         <h3>BandLab</h3>
                         <p>Mở khoá tính năng trả phí.</p>
@@ -370,8 +366,6 @@
                         <a href="https://www.mediafire.com/file/oqhmlceg70v990f/BandLab_v10.98.2-gocmod.com.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                <div class="app-card">
-  <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
                         <h3>Remini</h3>
@@ -381,8 +375,6 @@
                     </div>
                 </div>
                 <div class="app-card">
-  <div class="app-grid">
-                <div class="app-card">
                     <div class="app-card-content">
                         <h3>Tên Ứng Dụng 1</h3>
                         <p>Mở khoá SoundCloud Go+,...</p>
@@ -390,7 +382,6 @@
                         <a href="https://www.mediafire.com/file/obrtvi7ux1hoywj/com.mod.soundcloud.mod.apk.2025.07.082025.07.08.apk/file" class="download-button">Tải Xuống</a>
                     </div>
                 </div>
-                <div class="app-card">
             </div>
             <br>
             <h2>Ứng Dụng Trả Phí Hot</h2>
@@ -415,7 +406,7 @@
                     <div class="app-card-content">
                         <h3>Telegram Premium</h3>
                         <p>Mở khoá telegram premium.</p>
-                        <p class="app-price">Giá: 15.000 VNĐ</p>
+                        <p class="app-price">Giá: 10.000 VNĐ</p>
                         <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">Liên Hệ Mua</a>
                     </div>
                 </div>
@@ -423,7 +414,7 @@
                     <div class="app-card-content">
                         <h3>Duolingo Max</h3>
                         <p>Mở khoá Duolingo Max, mở khoá tính năng trả phí.</p>
-                        <p class="app-price">Giá: 10.000 VNĐ</p>
+                        <p class="app-price">Giá: 15.000 VNĐ</p>
                         <a href="#" class="download-button">Liên Hệ Mua</a>
                     </div>
                 </div>

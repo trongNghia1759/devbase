@@ -1,27 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Chia Sẻ APK</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>web chia sẻ apk</title>
+    <link href="https://fonts.googleapis.com/css2?family=montserrat:wght@400;700&family=roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS nội bộ */
+        /* css nội bộ */
         :root {
             --bg-color: #121212;
             --text-color: #e0e0e0;
-            --primary-color: #00ff99; /* Xanh neon */
+            --primary-color: #00ff99; /* xanh neon */
             --secondary-bg: #1f1f1f;
             --border-color: #333;
+            --card-text-black: #000000;
         }
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Roboto', sans-serif;
+            font-family: 'roboto', sans-serif;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            line-height: 1.5;
             transition: margin-left 0.3s ease;
+            font-size: 0.9em; /* giảm kích thước chữ toàn bộ body */
         }
         .container {
             max-width: 1200px;
@@ -30,45 +32,45 @@
         }
         header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px; /* giảm padding */
             border-bottom: 2px solid var(--border-color);
         }
         header h1 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'montserrat', sans-serif;
             font-weight: 700;
-            font-size: 3em;
+            font-size: 2.5em; /* giảm kích thước chữ */
             color: var(--primary-color);
             text-transform: uppercase;
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0;
         }
         header p {
-            font-size: 1.2em;
+            font-size: 1.1em; /* giảm kích thước chữ */
             color: #b0b0b0;
         }
         .search-box {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         .search-box input {
             width: 100%;
-            max-width: 500px;
-            padding: 12px 20px;
+            max-width: 450px;
+            padding: 10px 18px; /* giảm padding */
             border: none;
             border-radius: 50px 0 0 50px;
             background-color: var(--secondary-bg);
             color: var(--text-color);
-            font-size: 1em;
+            font-size: 0.9em; /* giảm kích thước chữ */
             outline: none;
             transition: box-shadow 0.3s ease;
         }
         .search-box button {
-            padding: 12px 25px;
+            padding: 10px 20px; /* giảm padding */
             border: none;
             border-radius: 0 50px 50px 0;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            font-size: 1em;
+            font-size: 0.9em; /* giảm kích thước chữ */
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -76,207 +78,223 @@
             background-color: #00e68a;
         }
         main {
-            padding: 40px 0;
+            padding: 30px 0; /* giảm padding */
         }
         h2 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'montserrat', sans-serif;
             font-weight: 700;
             color: var(--primary-color);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             position: relative;
+            font-size: 1.8em; /* giảm kích thước chữ */
         }
         h2::after {
             content: '';
             display: block;
-            width: 50px;
-            height: 3px;
+            width: 40px;
+            height: 2px;
             background-color: var(--primary-color);
-            margin: 10px auto 0;
+            margin: 8px auto 0;
         }
         .app-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
         .app-card {
             background-color: var(--secondary-bg);
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+            /* viền phát sáng màu đỏ */
+            border: 2px solid transparent;
         }
         .app-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(0, 255, 153, 0.2);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 25px rgba(255, 0, 0, 0.5);
+            border: 2px solid #ff0000; /* viền đỏ */
         }
         .app-card img {
             width: 100%;
-            height: 150px;
+            height: 120px;
             object-fit: cover;
             border-bottom: 1px solid var(--border-color);
         }
         .app-card-content {
-            padding: 20px;
+            padding: 15px; /* giảm padding */
             text-align: center;
         }
         .app-card h3 {
             margin-top: 0;
-            font-size: 1.5em;
+            font-size: 1.3em; /* giảm kích thước chữ */
+            color: var(--card-text-black); /* chữ màu đen */
         }
         .app-card p {
-            color: #b0b0b0;
-            font-size: 0.9em;
-            margin-bottom: 20px;
+            color: #555; /* màu xám đậm cho chữ mô tả */
+            font-size: 0.85em; /* giảm kích thước chữ */
+            margin-bottom: 15px;
         }
         .app-price {
             font-weight: bold;
-            color: #ffcc00;
+            color: #cc9900;
         }
         .download-button {
             display: inline-block;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            padding: 12px 25px;
-            border-radius: 50px;
+            padding: 10px 20px; /* giảm padding */
+            border-radius: 40px;
             text-decoration: none;
             font-weight: bold;
+            font-size: 0.9em; /* giảm kích thước chữ */
             transition: background-color 0.3s ease, transform 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 255, 153, 0.4);
         }
         .download-button:hover {
             background-color: #00e68a;
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 15px; /* giảm padding */
             border-top: 2px solid var(--border-color);
-            margin-top: 40px;
+            margin-top: 30px;
+            font-size: 0.8em; /* giảm kích thước chữ */
         }
-        /* Style cho menu */
+        /* style cho menu */
         .menu-toggle {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 15px; /* giảm top */
+            left: 15px; /* giảm left */
             z-index: 1000;
             background-color: var(--primary-color);
             color: var(--bg-color);
             border: none;
-            padding: 6px 10px; /* Giảm padding thêm nữa */
-            font-size: 1em; /* Giảm kích thước phông chữ thêm nữa */
+            padding: 5px 8px; /* giảm padding */
+            font-size: 0.9em; /* giảm kích thước phông chữ */
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 4px;
         }
         .side-menu {
             position: fixed;
             top: 0;
             left: 0;
-            width: 250px;
+            width: 220px; /* giảm chiều rộng */
             height: 100%;
             background-color: var(--secondary-bg);
-            padding: 20px;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            padding: 15px; /* giảm padding */
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s ease;
-            transform: translateX(-100%);
+            transform: translatex(-100%);
             z-index: 999;
         }
         .side-menu.open {
-            transform: translateX(0);
+            transform: translatex(0);
         }
         .side-menu h2 {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1.5em; /* giảm kích thước chữ */
         }
         .side-menu h2::after {
-            margin: 10px 0 0 0;
+            margin: 8px 0 0 0;
         }
         .side-menu a {
             display: block;
             color: var(--text-color);
             text-decoration: none;
-            padding: 10px 0;
+            padding: 8px 0; /* giảm padding */
             border-bottom: 1px solid var(--border-color);
             transition: color 0.3s ease;
-            font-size: 0.9em;
+            font-size: 0.85em; /* giảm kích thước chữ */
         }
         .side-menu a:hover {
             color: var(--primary-color);
+        }
+        /* các thay đổi khác */
+        .app-card-content {
+            background-color: #f0f0f0; /* nền xám nhạt */
+            color: var(--card-text-black);
         }
     </style>
 </head>
 <body>
     <button class="menu-toggle">☰</button>
     <div class="side-menu">
-        <h2>Danh Mục</h2>
-        <a href="index.html">Trang chủ</a>
-        <a href="apk.html">Kho APK</a>
-        <a href="ipa.html">Kho IPA</a>
-        <a href="urlshadow.ml">Kho url shadowrocket</a>
-        <a href="code.html">Kho code</a>
-        <a href="congdong.html">Cộng đồng</a>
-         <a href="donate.html">Donate và Liên hệ</a>
+        <h2>danh mục</h2>
+        <a href="index.html">trang chủ</a>
+        <a href="apk.html">kho apk</a>
+        <a href="ipa.html">kho ipa</a>
+        <a href="urlshadow.html">kho url shadowrocket</a>
+        <a href="code.html">kho code</a>
+        <a href="congdong.html">cộng đồng</a>
+        <a href="donate.html">donate và liên hệ</a>
+         <br>
+         <h2>danh mục</h2>
+        <a href="https://trongnghia1759.github.io/">Web Bio Của Admin</a>
     </div>
 
     <div class="container">
         <header>
-            <h1>DEV BASE</h1>
-            <p>Kho tài nguyên đa nền tảng.</p>
+            <h1>dev base</h1>
+            <p>kho tài nguyên đa nền tảng.</p>
         </header>
 
         <main>
-            <h2>Thứ Miễn Phí Hot</h2>
+            <h2>thứ miễn phí hot</h2>
             <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
-                        <h3>URL - Locket V2</h3>
-                        <p>Mở khoá tính năng Gold.</p>
-                        <p class="app-price">Giá: Miễn Phí</p>
-                        <a href="https://www.mediafire.com/file/f22dphmjplj4qaw/%25F0%259F%2587%25BB%25F0%259F%2587%25B3LocketV2_TNghia.conf/file" class="download-button">Tải Xuống</a>
+                        <h3>url - locket v2</h3>
+                        <p>mở khoá tính năng gold.</p>
+                        <p class="app-price">giá: miễn phí</p>
+                        <a href="https://www.mediafire.com/file/f22dphmjplj4qaw/%25f0%259f%2587%25bb%25f0%259f%2587%25b3locketv2_tnghia.conf/file" class="download-button">tải xuống</a>
                     </div>
                 </div>
                 <div class="app-card">
                     <div class="app-card-content">
-                        <h3>APK - B612 Premium</h3>
-                        <p>Mở khoá tính năng trả phí.</p>
-                        <p class="app-price">Giá: Miễn Phí</p>
-                        <a href="https://www.mediafire.com/file/7w48w5pgwbtdb45/B612_v14.2.10-gocmod.com.apk/file" class="download-button">Tải Xuống</a>
+                        <h3>apk - b612 premium</h3>
+                        <p>mở khoá tính năng trả phí.</p>
+                        <p class="app-price">giá: miễn phí</p>
+                        <a href="https://www.mediafire.com/file/7w48w5pgwbtdb45/b612_v14.2.10-gocmod.com.apk/file" class="download-button">tải xuống</a>
                     </div>
                 </div>
                 <div class="app-card">
                     <div class="app-card-content">
-                        <h3>APK - SoundCloud</h3>
-                        <p>Mở khoá tính năng Go+. Mở khoả tính năng trả phí.</p>
-                        <p class="app-price">Giá: Miễn Phí</p>
-                        <a href="#" class="download-button">Tải Xuống</a>
+                        <h3>apk - soundcloud</h3>
+                        <p>mở khoá tính năng go+. mở khoả tính năng trả phí.</p>
+                        <p class="app-price">giá: miễn phí</p>
+                        <a href="#" class="download-button">tải xuống</a>
                     </div>
                 </div>
             </div>
             <br>
-            <h2>Thứ Trả Phí Hot</h2>
+            <h2>thứ trả phí hot</h2>
             <div class="app-grid">
                 <div class="app-card">
                     <div class="app-card-content">
-                        <h3>APK - Capcut Pro</h3>
-                        <p>Sử dụng tính năng pro không giới hạn.</p>
-                        <p class="app-price">Giá: 20.000 VNĐ</p>
-                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">Liên Hệ Mua</a>
+                        <h3>apk - capcut pro</h3>
+                        <p>sử dụng tính năng pro không giới hạn.</p>
+                        <p class="app-price">giá: 20.000 vnđ</p>
+                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">liên hệ mua</a>
                     </div>
                 </div>
                 <div class="app-card">
                     <div class="app-card-content">
-                        <h3>APK - Telegram Premium</h3>
-                        <p>Mở khoá premium, đổi icon app, đổi nền chat,...</p>
-                        <p class="app-price">Giá: 10.000 VNĐ</p>
-                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">Liên Hệ Mua</a>
+                        <h3>apk - telegram premium</h3>
+                        <p>mở khoá premium, đổi icon app, đổi nền chat,...</p>
+                        <p class="app-price">giá: 10.000 vnđ</p>
+                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">liên hệ mua</a>
                     </div>
                 </div>
                 <div class="app-card">
                     <div class="app-card-content">
-                        <h3>APK - Duolingo Max</h3>
-                        <p>Mở khoá tính năng max, vô hạn tim,...</p>
-                        <p class="app-price">Giá: 15.000 VNĐ</p>
-                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">Liên Hệ Mua</a>
+                        <h3>apk - duolingo max</h3>
+                        <p>mở khoá tính năng max, vô hạn tim,...</p>
+                        <p class="app-price">giá: 15.000 vnđ</p>
+                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">liên hệ mua</a>
                     </div>
                 </div>
             </div>
@@ -284,7 +302,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 Web Chia Sẻ APK - IPA và nhiều thứ khác.</p>
+        <p>&copy; 2025 web chia sẻ apk - ipa và nhiều thứ khác.</p>
     </footer>
 
     <script>

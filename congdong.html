@@ -1,29 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cộng đồng & Nhóm chat</title>
+    <title>cộng đồng & nhóm chat</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=montserrat:wght@700&family=roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-color: #121212;
             --text-color: #e0e0e0;
-            --primary-color: #00ff99; /* Xanh neon */
+            --primary-color: #00ff99; /* xanh neon */
             --secondary-bg: #1f1f1f;
             --border-color: #333;
+            /* Màu mới cho card */
+            --card-bg-light-gray: #f0f0f0;
+            --card-text-black: #000000;
         }
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Roboto', sans-serif;
+            font-family: 'roboto', sans-serif;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            line-height: 1.5; /* Giảm nhẹ line-height */
             transition: margin-left 0.3s ease;
+            font-size: 0.9em; /* Giảm kích thước chữ toàn bộ body */
         }
         .container {
             max-width: 1200px;
@@ -32,45 +36,45 @@
         }
         header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px; /* Giảm padding */
             border-bottom: 2px solid var(--border-color);
         }
         header h1 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'montserrat', sans-serif;
             font-weight: 700;
-            font-size: 3em;
+            font-size: 2.5em; /* Giảm kích thước chữ */
             color: var(--primary-color);
             text-transform: uppercase;
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0; /* Giảm margin */
         }
         header p {
-            font-size: 1.2em;
+            font-size: 1.1em; /* Giảm kích thước chữ */
             color: #b0b0b0;
         }
         .search-box {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 15px; /* Giảm margin */
         }
         .search-box input {
             width: 100%;
-            max-width: 500px;
-            padding: 12px 20px;
+            max-width: 450px; /* Giảm max-width */
+            padding: 10px 18px; /* Giảm padding */
             border: none;
             border-radius: 50px 0 0 50px;
             background-color: var(--secondary-bg);
             color: var(--text-color);
-            font-size: 1em;
+            font-size: 0.9em; /* Giảm kích thước chữ */
             outline: none;
             transition: box-shadow 0.3s ease;
         }
         .search-box button {
-            padding: 12px 25px;
+            padding: 10px 20px; /* Giảm padding */
             border: none;
             border-radius: 0 50px 50px 0;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            font-size: 1em;
+            font-size: 0.9em; /* Giảm kích thước chữ */
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -78,211 +82,211 @@
             background-color: #00e68a;
         }
         main {
-            padding: 40px 0;
+            padding: 30px 0; /* Giảm padding */
         }
         h2 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'montserrat', sans-serif;
             font-weight: 700;
             color: var(--primary-color);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px; /* Giảm margin */
             position: relative;
+            font-size: 1.8em; /* Giảm kích thước chữ */
         }
         h2::after {
             content: '';
             display: block;
-            width: 50px;
-            height: 3px;
+            width: 40px; /* Giảm chiều rộng */
+            height: 2px; /* Giảm chiều cao */
             background-color: var(--primary-color);
-            margin: 10px auto 0;
+            margin: 8px auto 0; /* Giảm margin */
         }
         .app-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Giảm minmax */
+            gap: 20px; /* Giảm gap */
         }
         .app-card {
-            background-color: var(--secondary-bg);
-            border-radius: 15px;
+            background-color: var(--card-bg-light-gray); /* Màu xám nhạt */
+            border-radius: 12px; /* Giảm border-radius */
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2); /* Giảm box-shadow */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .app-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(0, 255, 153, 0.2);
+            transform: translatey(-5px); /* Giảm translatey */
+            box-shadow: 0 6px 20px rgba(0, 255, 153, 0.15); /* Giảm box-shadow */
         }
         .app-card img {
             width: 100%;
-            height: 150px;
+            height: 120px; /* Giảm chiều cao */
             object-fit: cover;
             border-bottom: 1px solid var(--border-color);
         }
         .app-card-content {
-            padding: 20px;
+            padding: 15px; /* Giảm padding */
             text-align: center;
+            color: var(--card-text-black); /* Chữ màu đen */
         }
         .app-card h3 {
             margin-top: 0;
-            font-size: 1.5em;
+            font-size: 1.3em; /* Giảm kích thước chữ */
+            color: var(--card-text-black); /* Chữ màu đen */
         }
         .app-card p {
-            color: #b0b0b0;
-            font-size: 0.9em;
-            margin-bottom: 20px;
+            color: #555; /* Màu xám đậm cho chữ mô tả */
+            font-size: 0.85em; /* Giảm kích thước chữ */
+            margin-bottom: 15px; /* Giảm margin */
         }
         .app-price {
             font-weight: bold;
-            color: #ffcc00;
+            color: #cc9900; /* Màu vàng đậm hơn */
         }
         .download-button {
             display: inline-block;
             background-color: var(--primary-color);
             color: var(--bg-color);
-            padding: 12px 25px;
-            border-radius: 50px;
+            padding: 10px 20px; /* Giảm padding */
+            border-radius: 40px; /* Giảm border-radius */
             text-decoration: none;
             font-weight: bold;
+            font-size: 0.9em; /* Giảm kích thước chữ */
             transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 255, 153, 0.4);
+            box-shadow: 0 3px 8px rgba(0, 255, 153, 0.3); /* Giảm box-shadow */
         }
         .download-button:hover {
             background-color: #00e68a;
-            transform: scale(1.05);
+            transform: scale(1.03); /* Giảm scale */
         }
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 15px; /* Giảm padding */
             border-top: 2px solid var(--border-color);
-            margin-top: 40px;
+            margin-top: 30px; /* Giảm margin */
+            font-size: 0.8em; /* Giảm kích thước chữ */
         }
-        /* Style cho menu */
+        /* style cho menu */
         .menu-toggle {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 15px; /* Giảm top */
+            left: 15px; /* Giảm left */
             z-index: 1000;
             background-color: var(--primary-color);
             color: var(--bg-color);
             border: none;
-            padding: 6px 10px;
-            font-size: 1em;
+            padding: 5px 8px; /* Giảm padding */
+            font-size: 0.9em; /* Giảm kích thước chữ */
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 4px; /* Giảm border-radius */
         }
         .side-menu {
             position: fixed;
             top: 0;
             left: 0;
-            width: 250px;
+            width: 220px; /* Giảm chiều rộng */
             height: 100%;
             background-color: var(--secondary-bg);
-            padding: 20px;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            padding: 15px; /* Giảm padding */
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4); /* Giảm box-shadow */
             transition: transform 0.3s ease;
-            transform: translateX(-100%);
+            transform: translatex(-100%);
             z-index: 999;
         }
         .side-menu.open {
-            transform: translateX(0);
+            transform: translatex(0);
         }
         .side-menu h2 {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Giảm margin */
+            font-size: 1.5em; /* Giảm kích thước chữ */
         }
         .side-menu h2::after {
-            margin: 10px 0 0 0;
+            margin: 8px 0 0 0; /* Giảm margin */
         }
         .side-menu a {
             display: block;
             color: var(--text-color);
             text-decoration: none;
-            padding: 10px 0;
+            padding: 8px 0; /* Giảm padding */
             border-bottom: 1px solid var(--border-color);
             transition: color 0.3s ease;
-            font-size: 0.9em;
+            font-size: 0.85em; /* Giảm kích thước chữ */
         }
         .side-menu a:hover {
             color: var(--primary-color);
         }
 
-        /* Thêm style cho icon mạng xã hội */
+        /* thêm style cho icon mạng xã hội */
         .social-icons a {
             color: var(--primary-color);
-            font-size: 2em;
-            margin: 0 10px;
+            font-size: 1.8em; /* Giảm kích thước icon */
+            margin: 0 8px; /* Giảm margin */
             text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="side-menu" id="sideMenu"> 
-        <h2>Danh Mục</h2>
-        <a href="index.html">Trang chủ</a>
-        <a href="apk.html">Kho APK</a>
-        <a href="ipa.html">Kho IPA</a>
-        <a href="urlshadow.ml">Kho url shadowrocket</a>
-        <a href="code.html">Kho code</a>
-        <a href="congdong.html">Cộng đồng</a>
-        <a href="donate.html">Donate và Liên hệ</a>
+    <div class="side-menu" id="sidemenu"> 
+        <h2>danh mục</h2>
+        <a href="index.html">trang chủ</a>
+        <a href="apk.html">kho apk</a>
+        <a href="ipa.html">kho ipa</a>
+        <a href="urlshadow.html">kho url shadowrocket</a>
+        <a href="code.html">kho code</a>
+        <a href="congdong.html">cộng đồng</a>
+        <a href="donate.html">donate và liên hệ</a>
+         <br>
+         <h2>danh mục</h2>
+        <a href="https://trongnghia1759.github.io/">Web Bio Của Admin</a>
     </div>
 
-    <button class="menu-toggle" id="menuToggle">☰</button>
+    <button class="menu-toggle" id="menutoggle">☰</button>
 
     <div class="container">
         <header>
-            <h1>Cộng đồng & Nhóm Chat</h1>
-            <p>Tham gia các nhóm chat và cộng đồng của chúng tôi!</p>
-            <div class="social-icons">
-                 
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="50" height="50">
-                </a>
-                
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" alt="Messenger" width="50" height="50">
-                </a>
-            </div>
+            <h1>cộng đồng & nhóm chat</h1>
+            <p>tham gia các nhóm chat và cộng đồng của chúng tôi!</p>
+           
         </header>
 
         <main>
             <section id="telegram">
-                <h2>Nhóm Telegram</h2>
+                <h2>nhóm telegram</h2>
                 <div class="app-grid">
                     <div class="app-card">
                        
                         <div class="app-card-content">
-                            <h3>Nhóm Nhận Thông Báo</h3>
-                            <p>Nhận thông báo sớm nhất về update và sự kiện.</p>
-                            <a href="https://t.me/+vNxgRu2P429jYjY1" class="download-button" target="_blank">Tham gia ngay</a>
-                        </div>
-                    </div>
-                         <section id="messenger">
-                <h2>Nhóm Messenger</h2>
-                <div class="app-grid">
-                    <div class="app-card">
-                    <div class="app-card">
-                       
-                        <div class="app-card-content">
-                            <h3>Nhóm Nhận Thông Báo</h3>
-                            <p>Giao Lưu Và Nhận Thông Báo Về Web.</p>
-                            <a href="https://m.me/j/AbYykFtb8Km60vHB/" class="download-button" target="_blank">Tham gia ngay</a>
+                            <h3>nhóm nhận thông báo</h3>
+                            <p>nhận thông báo sớm nhất về update và sự kiện.</p>
+                            <a href="https://t.me/+vnxgru2p429jyjy1" class="download-button" target="_blank">tham gia ngay</a>
                         </div>
                     </div>
                 </div>
             </section>
             
             <section id="messenger">
-                <h2>Fanpage</h2>
+                <h2>nhóm messenger</h2>
+                <div class="app-grid">
+                    <div class="app-card">
+                       
+                        <div class="app-card-content">
+                            <h3>nhóm nhận thông báo</h3>
+                            <p>giao lưu và nhận thông báo về web.</p>
+                            <a href="https://m.me/j/abyykftb8km60vhb/" class="download-button" target="_blank">tham gia ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="fanpage"> <h2>fanpage</h2>
                 <div class="app-grid">
                     <div class="app-card">
                         
                         <div class="app-card-content">
-                            <h3>Fanpage chính</h3>
-                            <p>Fanpage Facebook chính chuyên cập nhật mọi vấn đề.</p>
-                            <a href="https://www.facebook.com/profile.php?id=61580322357639" class="download-button" target="_blank">Theo dõi ngay</a>
-                        </div>
-                    </div>
-                    
+                            <h3>fanpage chính</h3>
+                            <p>fanpage facebook chính chuyên cập nhật mọi vấn đề.</p>
+                            <a href="https://www.facebook.com/profile.php?id=61580322357639" class="download-button" target="_blank">theo dõi ngay</a>
                         </div>
                     </div>
                 </div>
@@ -290,13 +294,13 @@
         </main>
 
         <footer>
-            <p>&copy; 2025 Cộng Đồng & Nhóm Chat.</p>
+            <p>&copy; 2025 cộng Đồng & nhóm chat.</p>
         </footer>
     </div>
     
     <script>
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('sideMenu').classList.toggle('open');
+        document.getElementById('menutoggle').addEventListener('click', function() {
+            document.getElementById('sidemenu').classList.toggle('open');
             document.body.classList.toggle('menu-open');
         });
     </script>
