@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Chia Sẻ APK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS nội bộ */
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --primary-color: #00ff99; /* Xanh neon */
+            --secondary-bg: #1f1f1f;
+            --border-color: #333;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            transition: margin-left 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 3em;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #b0b0b0;
+        }
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .search-box input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            font-size: 1em;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+        .search-box button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-box button:hover {
+            background-color: #00e68a;
+        }
+        main {
+            padding: 40px 0;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0;
+        }
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        .app-card {
+            background-color: var(--secondary-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .app-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 255, 153, 0.2);
+        }
+        .app-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .app-card-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .app-card h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+        .app-card p {
+            color: #b0b0b0;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        .app-price {
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        .download-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 255, 153, 0.4);
+        }
+        .download-button:hover {
+            background-color: #00e68a;
+            transform: scale(1.05);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid var(--border-color);
+            margin-top: 40px;
+        }
+        /* Style cho menu */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 6px 10px; /* Giảm padding thêm nữa */
+            font-size: 1em; /* Giảm kích thước phông chữ thêm nữa */
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: var(--secondary-bg);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+            z-index: 999;
+        }
+        .side-menu.open {
+            transform: translateX(0);
+        }
+        .side-menu h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .side-menu h2::after {
+            margin: 10px 0 0 0;
+        }
+        .side-menu a {
+            display: block;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: color 0.3s ease;
+            font-size: 0.9em;
+        }
+        .side-menu a:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle">☰</button>
+    <div class="side-menu">
+        <h2>Danh Mục</h2>
+        <a href="index.html">Trang chủ</a>
+        <a href="apk.html">Kho APK</a>
+        <a href="ipa.html">Kho IPA</a>
+        <a href="urlshadow.ml">Kho url shadowrocket</a>
+        <a href="code.html">Kho code</a>
+        <a href="congdong.html">Cộng đồng</a>
+         <a href="donate.html">Donate và Liên hệ</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>DEV BASE</h1>
+            <p>Kho tài nguyên APK - Android.</p>
+        </header>
+
+        <main>
+            <h2>Ứng Dụng Miễn Phí Hot</h2>
+            <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Xingtu</h3>
+                        <p>Xingtu Apk không cần chuyển vùng để tải.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/aswd6n8xslmblnt/Xingtu-%25E9%2586%2592%25E5%259B%25BE_8.8.0_XingTu.Info.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Locket Gold Cho Máy Yếu</h3>
+                        <p>Locket gold được bỏ bớt những tính năng và chi tiết không quan trọng để phù hợp chạy trên dòng android cũ.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/j3fz4lwi13stcci/LocketGoldFree_Locketasia_Gocmod_ver2.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Quizlet Premium</h3>
+                        <p>Mở khoá các tính năng trả phí.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/hqx7r62ek20fzz1/nap.mod.quizlet.study.with.flashcards.9.289.28.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Subway surfers</h3>
+                        <p>Vô hạn tài nguyên, mở khoá toàn bộ.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/p3qw8dfj8m0dytd/Subway_Surfers_3.48.0_APKPure.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Visual Code Mobile</h3>
+                        <p>Code html trên điện thoại.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/bm354edc5f8q1mv/lk-visual-code-mobile-11-64660309-3b9f36b29c31bbab2d20ade27d83b0f8.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>The spike</h3>
+                        <p>Mở khoá bản mode.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/nmhu03v894ut23d/the-spike-mod_4.3.1_BANDISHARE.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>SnapChat (Dễ Band))</h3>
+                        <p>Mở khoá tính năng trả phí.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/xcfhnlnh94c2m22/Snapchat-v13.36.2.0-MOD-OTR-%2528Getmodsapk.com%2529.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Hay Day</h3>
+                        <p>Tải xuống hayday</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/1d7cjz896preqpw/Hay_Day_1.66.155_APKPure.xapk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Garena</h3>
+                        <p>Tải xuống Garena.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/fqqc184w3udqnic/Garena_2.4.6.107_APKPure.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Dynamon World</h3>
+                        <p>Mode vô hạn kim cương, đĩa.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/ooo65wb2olgbscy/dynamons-world-mod_1.11.32_BANDISHARE.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>NGL Pro</h3>
+                        <p>Mở khoá NGL Pro.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/rjc01ls64jm5aon/com.mod.ngl.ask.me.anythingmod.apk.2.3.85.unit2.3.85.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Hungry shack</h3>
+                        <p>Mode vô hạn.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/co7f5f7qf1dpbrt/hungry-shark-world-mod_6.9.0_BANDISHARE.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>FL Studio Mobile</h3>
+                        <p>Tải xuống FL Studio Mobile.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/bcjvxsq14gimoa1/FL_Studio_Mobile_v4.6.8.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>B612 Premium</h3>
+                        <p>Mở khoá tính năng trả phí.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/7w48w5pgwbtdb45/B612_v14.2.10-gocmod.com.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>BandLab</h3>
+                        <p>Mở khoá tính năng trả phí.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/oqhmlceg70v990f/BandLab_v10.98.2-gocmod.com.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Remini</h3>
+                        <p>Mở khoá premium.</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/rzeszq5c23h8rws/com.mod.remini.ai.photo.enhancer.v3.7.3215.202576940.premium.unlocked3.7.3215.202576940.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+  <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Tên Ứng Dụng 1</h3>
+                        <p>Mở khoá SoundCloud Go+,...</p>
+                        <p class="app-price">Giá: Miễn Phí</p>
+                        <a href="https://www.mediafire.com/file/obrtvi7ux1hoywj/com.mod.soundcloud.mod.apk.2025.07.082025.07.08.apk/file" class="download-button">Tải Xuống</a>
+                    </div>
+                </div>
+                <div class="app-card">
+            </div>
+            <br>
+            <h2>Ứng Dụng Trả Phí Hot</h2>
+            <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Capcut Pro</h3>
+                        <p>Sử dụng tính năng pro không giới hạn.</p>
+                        <p class="app-price">Giá: 20.000 VNĐ</p>
+                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">Liên Hệ Mua</a>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Locket Gold</h3>
+                        <p>Mở khoá locket Gold.</p>
+                        <p class="app-price">Giá: 20.000 VNĐ</p>
+                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">Liên Hệ Mua</a>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Telegram Premium</h3>
+                        <p>Mở khoá telegram premium.</p>
+                        <p class="app-price">Giá: 15.000 VNĐ</p>
+                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">Liên Hệ Mua</a>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-card-content">
+                        <h3>Duolingo Max</h3>
+                        <p>Mở khoá Duolingo Max, mở khoá tính năng trả phí.</p>
+                        <p class="app-price">Giá: 10.000 VNĐ</p>
+                        <a href="#" class="download-button">Liên Hệ Mua</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Web Chia Sẻ APK - IPA và nhiều thứ khác.</p>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sideMenu = document.querySelector('.side-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            sideMenu.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
