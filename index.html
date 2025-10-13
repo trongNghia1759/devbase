@@ -1,310 +1,313 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>web chia sẻ apk</title>
-    <link href="https://fonts.googleapis.com/css2?family=montserrat:wght@400;700&family=roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* css nội bộ */
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --primary-color: #00ff99; /* xanh neon */
-            --secondary-bg: #1f1f1f;
-            --border-color: #333;
-            --card-text-black: #000000;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
-            transition: margin-left 0.3s ease;
-            font-size: 0.9em; /* giảm kích thước chữ toàn bộ body */
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 30px 20px; /* giảm padding */
-            border-bottom: 2px solid var(--border-color);
-        }
-        header h1 {
-            font-family: 'montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 2.5em; /* giảm kích thước chữ */
-            color: var(--primary-color);
-            text-transform: uppercase;
-            margin: 0 0 8px 0;
-        }
-        header p {
-            font-size: 1.1em; /* giảm kích thước chữ */
-            color: #b0b0b0;
-        }
-        .search-box {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        .search-box input {
-            width: 100%;
-            max-width: 450px;
-            padding: 10px 18px; /* giảm padding */
-            border: none;
-            border-radius: 50px 0 0 50px;
-            background-color: var(--secondary-bg);
-            color: var(--text-color);
-            font-size: 0.9em; /* giảm kích thước chữ */
-            outline: none;
-            transition: box-shadow 0.3s ease;
-        }
-        .search-box button {
-            padding: 10px 20px; /* giảm padding */
-            border: none;
-            border-radius: 0 50px 50px 0;
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-            font-size: 0.9em; /* giảm kích thước chữ */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .search-box button:hover {
-            background-color: #00e68a;
-        }
-        main {
-            padding: 30px 0; /* giảm padding */
-        }
-        h2 {
-            font-family: 'montserrat', sans-serif;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 25px;
-            position: relative;
-            font-size: 1.8em; /* giảm kích thước chữ */
-        }
-        h2::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 2px;
-            background-color: var(--primary-color);
-            margin: 8px auto 0;
-        }
-        .app-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        .app-card {
-            background-color: var(--secondary-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
-            /* viền phát sáng màu đỏ */
-            border: 2px solid transparent;
-        }
-        .app-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 25px rgba(255, 0, 0, 0.5);
-            border: 2px solid #ff0000; /* viền đỏ */
-        }
-        .app-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .app-card-content {
-            padding: 15px; /* giảm padding */
-            text-align: center;
-        }
-        .app-card h3 {
-            margin-top: 0;
-            font-size: 1.3em; /* giảm kích thước chữ */
-            color: var(--card-text-black); /* chữ màu đen */
-        }
-        .app-card p {
-            color: #555; /* màu xám đậm cho chữ mô tả */
-            font-size: 0.85em; /* giảm kích thước chữ */
-            margin-bottom: 15px;
-        }
-        .app-price {
-            font-weight: bold;
-            color: #cc9900;
-        }
-        .download-button {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-            padding: 10px 20px; /* giảm padding */
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9em; /* giảm kích thước chữ */
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 255, 153, 0.4);
-        }
-        .download-button:hover {
-            background-color: #00e68a;
-            transform: scale(1.03);
-        }
-        footer {
-            text-align: center;
-            padding: 15px; /* giảm padding */
-            border-top: 2px solid var(--border-color);
-            margin-top: 30px;
-            font-size: 0.8em; /* giảm kích thước chữ */
-        }
-        /* style cho menu */
-        .menu-toggle {
-            position: fixed;
-            top: 15px; /* giảm top */
-            left: 15px; /* giảm left */
-            z-index: 1000;
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-            border: none;
-            padding: 5px 8px; /* giảm padding */
-            font-size: 0.9em; /* giảm kích thước phông chữ */
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .side-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 220px; /* giảm chiều rộng */
-            height: 100%;
-            background-color: var(--secondary-bg);
-            padding: 15px; /* giảm padding */
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease;
-            transform: translatex(-100%);
-            z-index: 999;
-        }
-        .side-menu.open {
-            transform: translatex(0);
-        }
-        .side-menu h2 {
-            text-align: left;
-            margin-bottom: 15px;
-            font-size: 1.5em; /* giảm kích thước chữ */
-        }
-        .side-menu h2::after {
-            margin: 8px 0 0 0;
-        }
-        .side-menu a {
-            display: block;
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 8px 0; /* giảm padding */
-            border-bottom: 1px solid var(--border-color);
-            transition: color 0.3s ease;
-            font-size: 0.85em; /* giảm kích thước chữ */
-        }
-        .side-menu a:hover {
-            color: var(--primary-color);
-        }
-        /* các thay đổi khác */
-        .app-card-content {
-            background-color: #f0f0f0; /* nền xám nhạt */
-            color: var(--card-text-black);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Flappy Jack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: radial-gradient(white 1px, transparent 1px);
+      background-size: 4px 4px;
+      z-index: 0;
+    }
+
+    #container {
+      position: relative;
+      width: 400px;
+      height: 600px;
+      margin: 20px auto;
+      border: 4px solid white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 30px white;
+      background-color: black;
+      z-index: 1;
+    }
+
+    #game {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    #bird {
+      position: absolute;
+      left: 60px;
+      top: 200px;
+      width: 60px;
+      height: 60px;
+      z-index: 3;
+    }
+
+    #bird img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .pipe {
+      position: absolute;
+      width: 60px;
+      box-shadow: 0 0 10px white;
+      border: 2px solid white;
+      z-index: 2;
+    }
+
+    #menu, #game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      z-index: 4;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin-top: 20px;
+      font-size: 18px;
+      background: linear-gradient(to right, #00f2ff, #8e44ad);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00f2ff;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #skin-selector {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    #score-display {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: white;
+      font-size: 18px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 12px;
+      border-radius: 8px;
+      z-index: 5;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
-    <button class="menu-toggle">☰</button>
-    <div class="side-menu">
-        <h2>Danh Mục Chính</h2>
-        <a href="index.html">trang chủ</a>
-         <a href="code.html">kho code</a>
-          <h2>Danh Mục Phụ</h2>
-        <a href="apk.html">kho apk</a>
-        <a href="ipa.html">kho ipa</a>
-        <a href="urlshadow.html">kho url shadowrocket</a>
-          <h2>Khác</h2>
-        <a href="congdong.html">cộng đồng</a>
-        <a href="donate.html">donate và liên hệ</a>
-        <a href="https://trongnghia1759.github.io/">Web Bio Của Admin</a>
+
+  <!-- Bộ chọn skin -->
+  <select id="skin-selector">
+    <option value="https://i.postimg.cc/RCNbLPc7/Messenger-creation-4-AE4-FBB8-C576-4325-BBE1-D42378827178-removebg-preview.png">🐝 Ruồi 97</option>
+    <option value="https://i.postimg.cc/1tQ2KYkR/Picsart-25-07-27-17-40-01-016.png">🐰 Thỏ 7 Màu Trắng</option>
+    <option value="https://i.postimg.cc/3xKMMw9j/Picsart-25-07-27-18-41-47-416.png">🦠 Vi-Rút :))</option>
+  </select>
+
+  <div id="container">
+    <div id="game">
+      <div id="bird">
+        <img id="bird-img" src="https://i.postimg.cc/RCNbLPc7/Messenger-creation-4-AE4-FBB8-C576-4325-BBE1-D42378827178-removebg-preview.png" alt="Bird">
+      </div>
+
+      <div id="menu">
+        <h1>Flappy Jack</h1>
+        <button onclick="startGame()">Bắt đầu chơi</button>
+      </div>
+
+      <div id="game-over" class="hidden">
+        <h2>💀 Ngu Chét Rồi</h2>
+        <p>Điểm: <span id="final-score">0</span></p>
+        <button onclick="restartGame()">Chơi lại</button>
+      </div>
+
+      <div id="score-display">Điểm: 0 | 🏆 Kỷ lục: 0</div>
     </div>
+  </div>
 
-    <div class="container">
-        <header>
-            <h1>dev base</h1>
-            <p>kho tài nguyên đa nền tảng.</p>
-        </header>
+  <!-- Âm thanh + game logic -->
+  <script>
+    function playFlapSound() {
+      const sound = new Audio("https://media.vocaroo.com/mp3/1cjtI3SDssfx");
+      sound.volume = 0.5;
+      sound.play();
+    }
 
-        <main>
-            <h2>thứ miễn phí hot</h2>
-            <div class="app-grid">
-                <div class="app-card">
-                    <div class="app-card-content">
-                        <h3>url - locket v2</h3>
-                        <p>mở khoá tính năng gold.</p>
-                        <p class="app-price">giá: miễn phí</p>
-                        <a href="https://www.mediafire.com/file/f22dphmjplj4qaw/%25f0%259f%2587%25bb%25f0%259f%2587%25b3locketv2_tnghia.conf/file" class="download-button">tải xuống</a>
-                    </div>
-                </div>
-                <div class="app-card">
-                    <div class="app-card-content">
-                        <h3>apk - b612 premium</h3>
-                        <p>mở khoá tính năng trả phí.</p>
-                        <p class="app-price">giá: miễn phí</p>
-                        <a href="https://www.mediafire.com/file/7w48w5pgwbtdb45/b612_v14.2.10-gocmod.com.apk/file" class="download-button">tải xuống</a>
-                    </div>
-                </div>
-               
-            </div>
-            <br>
-            <h2>thứ trả phí hot</h2>
-            <div class="app-grid">
-                <div class="app-card">
-                    <div class="app-card-content">
-                        <h3>apk - capcut pro</h3>
-                        <p>sử dụng tính năng pro không giới hạn.</p>
-                        <p class="app-price">giá: 20.000 vnđ</p>
-                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">liên hệ mua</a>
-                    </div>
-                </div>
-                <div class="app-card">
-                    <div class="app-card-content">
-                        <h3>apk - telegram premium</h3>
-                        <p>mở khoá premium, đổi icon app, đổi nền chat,...</p>
-                        <p class="app-price">giá: 10.000 vnđ</p>
-                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">liên hệ mua</a>
-                    </div>
-                </div>
-                <div class="app-card">
-                    <div class="app-card-content">
-                        <h3>apk - duolingo max</h3>
-                        <p>mở khoá tính năng max, vô hạn tim,...</p>
-                        <p class="app-price">giá: 15.000 vnđ</p>
-                        <a href="https://www.facebook.com/profile.php?id=61576009787673" class="download-button">liên hệ mua</a>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+    const container = document.getElementById("container");
+    const game = document.getElementById("game");
+    const bird = document.getElementById("bird");
+    const gameOverMenu = document.getElementById("game-over");
+    const menu = document.getElementById("menu");
+    const finalScore = document.getElementById("final-score");
+    const scoreDisplay = document.getElementById("score-display");
 
-    <footer>
-        <p>&copy; 2025 Đàm Trọng Nghĩa.</p>
-    </footer>
+    let birdTop = 200;
+    let gravity = 2;
+    let isGameOver = false;
+    let pipes = [];
+    let score = 0;
+    let highScore = localStorage.getItem("flappyHighScore") || 0;
+    let gameLoop;
+    const gap = 180;
+    let lastPipeX = 400;
+    const pipeSpacing = 220;
 
-    <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const sideMenu = document.querySelector('.side-menu');
-        
-        menuToggle.addEventListener('click', () => {
-            sideMenu.classList.toggle('open');
+    function getRandomColor() {
+      const colors = ['#ff0055', '#00ffee', '#00ff33', '#ffaa00', '#cc00ff', '#00aaff'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function updateScoreDisplay() {
+      scoreDisplay.textContent = `Điểm: ${score} | 🏆 Kỷ lục: ${highScore}`;
+    }
+
+    function startGame() {
+      menu.classList.add("hidden");
+      birdTop = 200;
+      bird.style.top = "200px";
+      isGameOver = false;
+      score = 0;
+      finalScore.textContent = "0";
+      updateScoreDisplay();
+      pipes.forEach(p => {
+        game.removeChild(p.top);
+        game.removeChild(p.bottom);
+      });
+      pipes = [];
+      gameOverMenu.classList.add("hidden");
+
+      gameLoop = setInterval(() => {
+        birdTop += gravity;
+        bird.style.top = birdTop + "px";
+
+        if (!isGameOver && (pipes.length === 0 || pipes[pipes.length - 1].left < lastPipeX - pipeSpacing)) {
+          generatePipe();
+        }
+
+        pipes.forEach((pipe, index) => {
+          pipe.left -= 2;
+          pipe.top.style.left = pipe.left + "px";
+          pipe.bottom.style.left = pipe.left + "px";
+
+          if (
+            pipe.left < 100 && pipe.left + 60 > 60 &&
+            (birdTop < pipe.height || birdTop + 35 > pipe.height + gap)
+          ) {
+            endGame();
+          }
+
+          if (pipe.left + 60 < 60 && !pipe.counted) {
+            score++;
+            pipe.counted = true;
+            if (score > highScore) {
+              highScore = score;
+              localStorage.setItem("flappyHighScore", highScore);
+            }
+            updateScoreDisplay();
+          }
+
+          if (pipe.left < -60) {
+            game.removeChild(pipe.top);
+            game.removeChild(pipe.bottom);
+            pipes.splice(index, 1);
+          }
         });
-    </script>
+
+        if (birdTop > 600 || birdTop < 0) {
+          endGame();
+        }
+      }, 20);
+    }
+
+    function generatePipe() {
+      if (isGameOver) return;
+
+      let pipeHeight = Math.floor(Math.random() * 250) + 50;
+      let color = getRandomColor();
+
+      let pipeTop = document.createElement("div");
+      pipeTop.className = "pipe";
+      pipeTop.style.background = color;
+      pipeTop.style.height = pipeHeight + "px";
+      pipeTop.style.top = "0";
+      pipeTop.style.left = "400px";
+
+      let pipeBottom = document.createElement("div");
+      pipeBottom.className = "pipe";
+      pipeBottom.style.background = color;
+      pipeBottom.style.height = (600 - pipeHeight - gap) + "px";
+      pipeBottom.style.bottom = "0";
+      pipeBottom.style.left = "400px";
+
+      game.appendChild(pipeTop);
+      game.appendChild(pipeBottom);
+
+      pipes.push({
+        top: pipeTop,
+        bottom: pipeBottom,
+        left: 400,
+        height: pipeHeight,
+        counted: false
+      });
+
+      lastPipeX = 400;
+    }
+
+    function endGame() {
+      clearInterval(gameLoop);
+      isGameOver = true;
+      finalScore.textContent = score;
+      updateScoreDisplay();
+      gameOverMenu.classList.remove("hidden");
+    }
+
+    function restartGame() {
+      startGame();
+    }
+
+    document.addEventListener("keydown", () => {
+      if (!isGameOver) {
+        birdTop -= 45;
+        playFlapSound();
+      }
+    });
+
+    document.addEventListener("touchstart", () => {
+      if (!isGameOver) {
+        birdTop -= 45;
+        playFlapSound();
+      }
+    });
+
+    // ✅ Thay skin
+    document.getElementById("skin-selector").addEventListener("change", function () {
+      document.getElementById("bird-img").src = this.value;
+    });
+
+    // Hiển thị điểm ngay từ đầu
+    updateScoreDisplay();
+  </script>
+
 </body>
 </html>
