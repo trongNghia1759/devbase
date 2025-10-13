@@ -2,15 +2,20 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Flappy Jack</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Flappy Jack (Responsive)</title>
   <style>
+    /*
+     * CSS Responsive - Sử dụng tỷ lệ phần trăm và viewport
+     */
     html, body {
       margin: 0;
       padding: 0;
       background: #000;
       font-family: 'Segoe UI', sans-serif;
       overflow: hidden;
+      /* Ngăn cuộn trên thiết bị di động */
+      touch-action: manipulation;
     }
 
     body::before {
@@ -24,10 +29,15 @@
     }
 
     #container {
-      position: relative;
-      width: 400px;
-      height: 600px;
-      margin: 20px auto;
+      /* Dùng viewport unit để game chiếm tỷ lệ màn hình */
+      /* Chiều rộng tối đa 400px, nhưng ưu tiên 80vw */
+      width: clamp(280px, 80vw, 400px);
+      /* Tỷ lệ 3:2, chiều cao sẽ là 1.5 lần chiều rộng */
+      aspect-ratio: 2 / 3;
+      position: absolute; /* Thay thế relative/margin auto bằng absolute + translate để căn giữa tốt hơn */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       border: 4px solid white;
       border-radius: 16px;
       overflow: hidden;
@@ -42,12 +52,14 @@
       position: relative;
     }
 
+    /* Các phần tử trong game sẽ dùng % để tính theo kích thước #game */
     #bird {
       position: absolute;
-      left: 60px;
-      top: 200px;
-      width: 60px;
-      height: 60px;
+      /* Tọa độ ban đầu và kích thước dùng % */
+      left: 15%; /* 60px / 400px */
+      top: 33.33%; /* 200px / 600px */
+      width: 15%; /* 60px / 400px */
+      height: 10%; /* 60px / 600px */
       z-index: 3;
     }
 
@@ -59,7 +71,7 @@
 
     .pipe {
       position: absolute;
-      width: 60px;
+      width: 15%; /* 60px / 400px */
       box-shadow: 0 0 10px white;
       border: 2px solid white;
       z-index: 2;
@@ -73,12 +85,15 @@
       text-align: center;
       color: white;
       z-index: 4;
+      /* Kích thước chữ cũng nên dùng đơn vị linh hoạt */
+      font-size: clamp(14px, 4vw, 24px);
+      width: 80%;
     }
 
     button {
       padding: 12px 24px;
       margin-top: 20px;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px); /* Kích thước chữ button linh hoạt */
       background: linear-gradient(to right, #00f2ff, #8e44ad);
       color: white;
       border: none;
@@ -98,7 +113,7 @@
       z-index: 9999;
       padding: 6px;
       border-radius: 6px;
-      font-size: 16px;
+      font-size: clamp(12px, 3vw, 16px);
     }
 
     #score-display {
@@ -106,7 +121,7 @@
       bottom: 10px;
       left: 10px;
       color: white;
-      font-size: 18px;
+      font-size: clamp(14px, 4vw, 18px);
       background: rgba(0, 0, 0, 0.6);
       padding: 6px 12px;
       border-radius: 8px;
@@ -118,7 +133,6 @@
 
 <body>
 
-  <!-- Bộ chọn skin -->
   <select id="skin-selector">
     <option value="https://i.postimg.cc/RCNbLPc7/Messenger-creation-4-AE4-FBB8-C576-4325-BBE1-D42378827178-removebg-preview.png">🐝 Ruồi 97</option>
     <option value="https://i.postimg.cc/1tQ2KYkR/Picsart-25-07-27-17-40-01-016.png">🐰 Thỏ 7 Màu Trắng</option>
@@ -146,8 +160,12 @@
     </div>
   </div>
 
-  <!-- Âm thanh + game logic -->
   <script>
+    // Định nghĩa kích thước tham chiếu (Base size)
+    // Coi 400x600 là kích thước chuẩn để tính toán tỷ lệ
+    const BASE_WIDTH = 400;
+    const BASE_HEIGHT = 600;
+
     function playFlapSound() {
       const sound = new Audio("https://media.vocaroo.com/mp3/1cjtI3SDssfx");
       sound.volume = 0.5;
@@ -162,16 +180,31 @@
     const finalScore = document.getElementById("final-score");
     const scoreDisplay = document.getElementById("score-display");
 
-    let birdTop = 200;
+    // Biến trạng thái
+    let birdTop = 200; // Vẫn dùng giá trị pixel gốc để tính toán
     let gravity = 2;
+    let flapStrength = 45;
+    let pipeSpeed = 2;
     let isGameOver = false;
     let pipes = [];
     let score = 0;
     let highScore = localStorage.getItem("flappyHighScore") || 0;
     let gameLoop;
-    const gap = 180;
-    let lastPipeX = 400;
-    const pipeSpacing = 220;
+    const gapBase = 180; // Khoảng cách khe hở gốc (pixel)
+    let lastPipeX = BASE_WIDTH;
+    const pipeSpacingBase = 220; // Khoảng cách giữa các ống (pixel)
+
+    // Hàm lấy tỷ lệ chuyển đổi
+    function getScale() {
+      const gameWidth = game.clientWidth;
+      const gameHeight = game.clientHeight;
+      // Lấy tỷ lệ chiều rộng, dùng để chuyển đổi các giá trị X
+      const scaleX = gameWidth / BASE_WIDTH;
+      // Lấy tỷ lệ chiều cao, dùng để chuyển đổi các giá trị Y
+      const scaleY = gameHeight / BASE_HEIGHT;
+      // Dùng scaleY cho tất cả giá trị vì BirdTop, Gravity, Flap, PipeHeight đều ảnh hưởng bởi chiều cao game
+      return { scaleX, scaleY };
+    }
 
     function getRandomColor() {
       const colors = ['#ff0055', '#00ffee', '#00ff33', '#ffaa00', '#cc00ff', '#00aaff'];
@@ -184,8 +217,12 @@
 
     function startGame() {
       menu.classList.add("hidden");
-      birdTop = 200;
-      bird.style.top = "200px";
+      
+      // Khởi tạo vị trí bird theo tỷ lệ chiều cao mới
+      const { scaleY } = getScale();
+      birdTop = 200 * scaleY; // Chuyển đổi vị trí khởi đầu 200px
+      bird.style.top = (birdTop / scaleY) * 100 / BASE_HEIGHT + "%"; // Đặt lại vị trí theo %
+      
       isGameOver = false;
       score = 0;
       finalScore.textContent = "0";
@@ -197,68 +234,108 @@
       pipes = [];
       gameOverMenu.classList.add("hidden");
 
-      gameLoop = setInterval(() => {
-        birdTop += gravity;
-        bird.style.top = birdTop + "px";
+      gameLoop = setInterval(gameLogic, 20);
+    }
 
-        if (!isGameOver && (pipes.length === 0 || pipes[pipes.length - 1].left < lastPipeX - pipeSpacing)) {
+    function gameLogic() {
+      const { scaleX, scaleY } = getScale();
+      const scaledGravity = gravity * scaleY;
+      const scaledPipeSpeed = pipeSpeed * scaleX;
+      const scaledGap = gapBase * scaleY;
+      const scaledPipeSpacing = pipeSpacingBase * scaleX;
+
+      // 1. Cập nhật vị trí Bird
+      birdTop += scaledGravity;
+      // Đặt lại vị trí Bird theo tỷ lệ % để Bird luôn ở đúng vị trí trên màn hình
+      // birdTop hiện tại là giá trị đã scale, phải chia lại cho scaleY để lấy giá trị base (tương đương pixel gốc)
+      // sau đó chia cho chiều cao game gốc (600) rồi * 100 để có %
+      bird.style.top = (birdTop / scaleY) * 100 / BASE_HEIGHT + "%";
+
+      // 2. Tạo Ống mới
+      if (!isGameOver && (pipes.length === 0 || pipes[pipes.length - 1].left < BASE_WIDTH - scaledPipeSpacing)) {
           generatePipe();
-        }
+      }
 
-        pipes.forEach((pipe, index) => {
-          pipe.left -= 2;
-          pipe.top.style.left = pipe.left + "px";
-          pipe.bottom.style.left = pipe.left + "px";
+      // 3. Cập nhật vị trí Ống và Kiểm tra va chạm
+      pipes.forEach((pipe, index) => {
+          pipe.left -= scaledPipeSpeed;
+          // Chuyển đổi pipe.left đã scale (tương đương pixel gốc) sang % để đặt vị trí
+          pipe.top.style.left = (pipe.left / scaleX) * 100 / BASE_WIDTH + "%";
+          pipe.bottom.style.left = (pipe.left / scaleX) * 100 / BASE_WIDTH + "%";
 
+          // Kích thước chim (Bird) và ống (Pipe) đã chuyển sang % trong CSS
+          // Cần chuyển đổi các giá trị base/cố định sang giá trị đã scale
+          const BIRD_LEFT_POS = 60 * scaleX; // 60px base
+          const BIRD_WIDTH = 60 * scaleX; // 60px base
+          const PIPE_WIDTH = 60 * scaleX; // 60px base
+          const BIRD_HEIGHT = 60 * scaleY; // 60px base (xấp xỉ 10% chiều cao)
+
+          // Va chạm X: Bird (BIRD_LEFT_POS) chạm ống (pipe.left)
+          // Va chạm Y: Bird (birdTop) chạm ống trên (pipe.scaledHeight) hoặc ống dưới
           if (
-            pipe.left < 100 && pipe.left + 60 > 60 &&
-            (birdTop < pipe.height || birdTop + 35 > pipe.height + gap)
+              pipe.left < BIRD_LEFT_POS + BIRD_WIDTH && pipe.left + PIPE_WIDTH > BIRD_LEFT_POS &&
+              (birdTop < pipe.scaledHeight || birdTop + BIRD_HEIGHT * 0.9 > pipe.scaledHeight + scaledGap)
+              // *0.9 là một điều chỉnh nhỏ để tránh va chạm quá nhạy (tùy chỉnh)
           ) {
-            endGame();
+              endGame();
           }
 
-          if (pipe.left + 60 < 60 && !pipe.counted) {
-            score++;
-            pipe.counted = true;
-            if (score > highScore) {
-              highScore = score;
-              localStorage.setItem("flappyHighScore", highScore);
-            }
-            updateScoreDisplay();
+          // Tính điểm (khi ống vượt qua Bird)
+          if (pipe.left + PIPE_WIDTH < BIRD_LEFT_POS && !pipe.counted) {
+              score++;
+              pipe.counted = true;
+              if (score > highScore) {
+                  highScore = score;
+                  localStorage.setItem("flappyHighScore", highScore);
+              }
+              updateScoreDisplay();
           }
 
-          if (pipe.left < -60) {
-            game.removeChild(pipe.top);
-            game.removeChild(pipe.bottom);
-            pipes.splice(index, 1);
+          // Xóa ống khỏi bộ nhớ (khi ống đi ra khỏi màn hình)
+          if (pipe.left < -PIPE_WIDTH) {
+              game.removeChild(pipe.top);
+              game.removeChild(pipe.bottom);
+              pipes.splice(index, 1);
           }
-        });
+      });
 
-        if (birdTop > 600 || birdTop < 0) {
+      // 4. Va chạm biên (trên/dưới)
+      if (birdTop > game.clientHeight || birdTop < 0) {
           endGame();
-        }
-      }, 20);
+      }
     }
 
     function generatePipe() {
       if (isGameOver) return;
 
-      let pipeHeight = Math.floor(Math.random() * 250) + 50;
+      const { scaleY } = getScale();
+      const scaledGap = gapBase * scaleY;
+
+      // Tính chiều cao ống trên (base)
+      let pipeHeightBase = Math.floor(Math.random() * 250) + 50;
+      // Chuyển sang giá trị đã scale
+      let pipeHeightScaled = pipeHeightBase * scaleY;
+
       let color = getRandomColor();
 
       let pipeTop = document.createElement("div");
       pipeTop.className = "pipe";
       pipeTop.style.background = color;
-      pipeTop.style.height = pipeHeight + "px";
+      
+      // Đặt chiều cao và vị trí theo %
+      pipeTop.style.height = pipeHeightBase * 100 / BASE_HEIGHT + "%";
       pipeTop.style.top = "0";
-      pipeTop.style.left = "400px";
+      pipeTop.style.left = "100%"; // Bắt đầu từ ngoài biên 100%
 
       let pipeBottom = document.createElement("div");
       pipeBottom.className = "pipe";
       pipeBottom.style.background = color;
-      pipeBottom.style.height = (600 - pipeHeight - gap) + "px";
+      
+      // Đặt chiều cao ống dưới theo %
+      let bottomHeightBase = BASE_HEIGHT - pipeHeightBase - gapBase;
+      pipeBottom.style.height = bottomHeightBase * 100 / BASE_HEIGHT + "%";
       pipeBottom.style.bottom = "0";
-      pipeBottom.style.left = "400px";
+      pipeBottom.style.left = "100%";
 
       game.appendChild(pipeTop);
       game.appendChild(pipeBottom);
@@ -266,12 +343,13 @@
       pipes.push({
         top: pipeTop,
         bottom: pipeBottom,
-        left: 400,
-        height: pipeHeight,
+        left: BASE_WIDTH, // Vẫn dùng giá trị base cho `left` để dễ dàng tính toán trong gameLogic
+        height: pipeHeightBase, // Chiều cao base
+        scaledHeight: pipeHeightScaled, // Chiều cao đã scale
         counted: false
       });
 
-      lastPipeX = 400;
+      lastPipeX = BASE_WIDTH;
     }
 
     function endGame() {
@@ -286,19 +364,18 @@
       startGame();
     }
 
-    document.addEventListener("keydown", () => {
+    // Xử lý sự kiện nhấn/chạm
+    function handleFlap() {
       if (!isGameOver) {
-        birdTop -= 45;
+        const { scaleY } = getScale();
+        const scaledFlap = flapStrength * scaleY;
+        birdTop -= scaledFlap;
         playFlapSound();
       }
-    });
+    }
 
-    document.addEventListener("touchstart", () => {
-      if (!isGameOver) {
-        birdTop -= 45;
-        playFlapSound();
-      }
-    });
+    document.addEventListener("keydown", handleFlap);
+    document.addEventListener("touchstart", handleFlap);
 
     // ✅ Thay skin
     document.getElementById("skin-selector").addEventListener("change", function () {
