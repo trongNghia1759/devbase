@@ -143,12 +143,19 @@
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
     }
 
-    .description {
-      font-size: 10px;
-      line-height: 1.6;
-      color: #000;
-      padding: 0 10px;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    /* Đổi tên class 'description' thành 'custom-description' và thêm CSS theo yêu cầu */
+    .custom-description {
+        font-size: 15px; /* Tăng kích thước chữ cho dễ nhìn hơn */
+        line-height: 1.6;
+        color: #fff; /* Màu chữ: Trắng */
+        padding: 0 10px;
+        /* Hiệu ứng viền đen (đổ bóng chữ 1px đen 4 hướng) */
+        text-shadow: 
+            -1px -1px 0 #000,  /* Trên trái */
+             1px -1px 0 #000,  /* Trên phải */
+            -1px  1px 0 #000,  /* Dưới trái */
+             1px  1px 0 #000;  /* Dưới phải */
+        margin-bottom: 20px; /* Thêm khoảng cách dưới */
     }
 
     .divider {
@@ -203,13 +210,12 @@
       <img src="https://i.postimg.cc/zfdHxRYf/IMG-20250729-173606-preview-rev-1.png" alt="tick xanh" style="width: 16px; height: 16px; vertical-align: middle; margin-left: 5px;">
     </h1>
    
-    <p>Sad Captions<br>Nhận Chạy Quảng Cáo<br>Happy 30k Followers TikTok</p>
+    <p class="custom-description">Sad Captions<br>Nhận Chạy Quảng Cáo<br>Happy 30k Followers TikTok</p>
 
     <hr class="divider" />
     
     <div class="button-group">
       
-       <a
        <a href="," target="_blank" class="contact-button">Tik Tok "Sad Caption"</a>
        
        <a href="," target="_blank" class="contact-button">Liên Hệ FB Chạy QC</a>
@@ -224,9 +230,18 @@
     const menuToggle = document.getElementById('menuToggle');
     const menu = document.getElementById('menu');
 
-    menuToggle.addEventListener('click', function() {
-      menu.classList.toggle('active');
-    });
+    // Cần phải có các phần tử này trong HTML để script hoạt động, nếu không sẽ báo lỗi
+    // Hiện tại file HTML gốc của bạn bị thiếu 2 phần tử này, nhưng tôi giữ lại script
+    // Nếu bạn muốn script hoạt động, hãy thêm:
+    // <div class="menu-toggle" id="menuToggle"></div>
+    // <div class="menu" id="menu">
+    //   // </div>
+
+    if (menuToggle && menu) {
+        menuToggle.addEventListener('click', function() {
+            menu.classList.toggle('active');
+        });
+    }
   </script>
 </body>
 </html>
